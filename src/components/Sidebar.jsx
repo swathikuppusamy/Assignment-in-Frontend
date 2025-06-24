@@ -10,6 +10,7 @@ import {
   MoreVertical
 } from 'lucide-react';
 import { dateUtils } from '../utils/dateUtils';
+import EventCreate from './EventCreate';
 
 const MiniCalendar = ({ currentDate, onDateSelect }) => {
   const [miniDate, setMiniDate] = useState(new Date());
@@ -105,9 +106,11 @@ const Sidebar = ({
   currentDate, 
   onDateSelect,
   calendars = [],
-  onCalendarToggle 
+  onCalendarToggle,
+  onEventCreate
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [showEventCreate, setShowEventCreate] = useState(false);
 
   const defaultCalendars = [
     { id: 'personal', name: 'Personal', color: 'bg-blue-500', enabled: true },
@@ -118,6 +121,20 @@ const Sidebar = ({
   ];
 
   const calendarList = calendars.length > 0 ? calendars : defaultCalendars;
+
+  const handleCreateClick = () => {
+    setShowEventCreate(true);
+  };
+
+  const handleEventSave = (eventData) => {
+    // Pass the event data to parent component
+    onEventCreate && onEventCreate(eventData);
+    setShowEventCreate(false);
+  };
+
+  const handleEventCreateClose = () => {
+    setShowEventCreate(false);
+  };
 
   return (
     <>
@@ -133,13 +150,24 @@ const Sidebar = ({
       <div className={`
         fixed left-0 top-0 h-full w-78 bg-white border-r border-gray-200 z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:relative md:translate-x-0 md:z-auto
+        md:static md:translate-x-0 md:z-auto pt-20
       `}>
-       
+        {/* Close button for mobile */}
+        <div className="md:hidden absolute top-4 right-4">
+          <button
+            onClick={onClose}
+            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <X className="w-5 h-5 text-gray-600" />
+          </button>
+        </div>
         
         {/* Create button */}
         <div className="p-4">
-          <button className="w-full flex items-center space-x-3 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl">
+          <button 
+            onClick={handleCreateClick}
+            className="w-full flex items-center space-x-3 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+          >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Create</span>
           </button>
@@ -178,7 +206,7 @@ const Sidebar = ({
           
           <div className="space-y-2">
             {calendarList.map((calendar) => (
-              <div key={calendar.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors">
+              <div key={calendar.id} className="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 transition-colors group">
                 <button
                   onClick={() => onCalendarToggle && onCalendarToggle(calendar.id)}
                   className={`
@@ -211,6 +239,14 @@ const Sidebar = ({
           </button>
         </div>
       </div>
+
+      {/* Event Create Modal */}
+      <EventCreate
+        isOpen={showEventCreate}
+        onClose={handleEventCreateClose}
+        onSave={handleEventSave}
+        selectedDate={currentDate}
+      />
     </>
   );
 };

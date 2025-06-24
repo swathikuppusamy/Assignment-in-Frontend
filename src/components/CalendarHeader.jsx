@@ -9,7 +9,8 @@ const CalendarHeader = ({
   onToday, 
   onSidebarToggle,
   viewMode,
-  onViewChange 
+  onViewChange,
+  sidebarOpen = false
 }) => {
   const monthNames = dateUtils.getMonthNames();
   const currentMonth = currentDate.getMonth();
@@ -19,17 +20,21 @@ const CalendarHeader = ({
   const isCurrentMonth = currentMonth === today.getMonth() && currentYear === today.getFullYear();
 
   return (
-    <div className="bg-white border-b border-gray-200 px-4 py-3">
-      <div className="flex items-center justify-between">
+    <div className="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 px-4 py-3 z-30">
+      <div className="flex items-center justify-between w-full">
         {/* Left section */}
         <div className="flex items-center space-x-4">
-          {/* Menu button for mobile */}
+          {/* Sidebar toggle button */}
           <button
             onClick={onSidebarToggle}
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+            className={`p-2 rounded-lg transition-colors ${
+              sidebarOpen 
+                ? 'bg-blue-100 text-blue-600 hover:bg-blue-200' 
+                : 'hover:bg-gray-100 text-gray-600'
+            }`}
             aria-label="Toggle sidebar"
           >
-            <Menu className="w-5 h-5 text-gray-600" />
+            <Menu className="w-5 h-5" />
           </button>
 
           {/* Logo and title */}
@@ -41,16 +46,6 @@ const CalendarHeader = ({
               Calendar
             </h1>
           </div>
-
-          {/* Today button */}
-          {!isCurrentMonth && (
-            <button
-              onClick={onToday}
-              className="px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors border border-blue-200"
-            >
-              Today
-            </button>
-          )}
 
           {/* Navigation */}
           <div className="flex items-center space-x-1">
@@ -74,6 +69,19 @@ const CalendarHeader = ({
           <h2 className="text-xl font-semibold text-gray-800 min-w-fit">
             {monthNames[currentMonth]} {currentYear}
           </h2>
+
+          {/* Today button */}
+          <button
+            onClick={onToday}
+            className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors border ${
+              isCurrentMonth 
+                ? 'text-gray-400 border-gray-200 cursor-not-allowed'
+                : 'text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200'
+            }`}
+            disabled={isCurrentMonth}
+          >
+            Today
+          </button>
         </div>
 
         {/* Right section */}

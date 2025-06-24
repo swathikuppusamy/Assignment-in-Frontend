@@ -1,7 +1,6 @@
 import React from 'react';
-import { dateUtils } from '../utils/dateUtils';
 
-const EventItem = ({ event, onClick, isConflict }) => {
+const EventItem = ({ event, onClick, isConflict, compact = false }) => {
   const getPriorityClass = (priority) => {
     switch (priority?.toLowerCase()) {
       case 'high':
@@ -15,7 +14,19 @@ const EventItem = ({ event, onClick, isConflict }) => {
     }
   };
 
+  const getColorClass = (color) => {
+    // Handle both bg-color-500 format and just color format
+    if (color && color.startsWith('bg-')) {
+      return color.replace('bg-', 'border-').replace('-500', '-400') + ' ' + color.replace('-500', '-50');
+    }
+    return 'border-blue-400 bg-blue-50';
+  };
+
   const formatTimeShort = (time) => {
+    if (!time || time === 'All day') {
+      return 'All day';
+    }
+    
     const [hours, minutes] = time.split(':');
     const hour = parseInt(hours);
     const displayHour = hour % 12 || 12;
@@ -25,15 +36,18 @@ const EventItem = ({ event, onClick, isConflict }) => {
 
   const handleClick = (e) => {
     e.stopPropagation();
-    onClick(event);
+    onClick && onClick(event);
   };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      onClick(event);
+      onClick && onClick(event);
     }
   };
+
+  // Use the color from event or priority-based color
+  const colorClass = event.color ? getColorClass(event.color) : getPriorityClass(event.priority);
 
   return (
     <div
@@ -41,48 +55,57 @@ const EventItem = ({ event, onClick, isConflict }) => {
       onKeyDown={handleKeyDown}
       tabIndex={0}
       role="button"
-      aria-label={`Event: ${event.title} at ${dateUtils.formatTime(event.time)}`}
+      aria-label={`Event: ${event.title}`}
       className={`
-        event-item text-xs p-2 mb-1 rounded-md cursor-pointer truncate 
-        transition-all duration-200 ease-in-out
-        hover:shadow-md hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500
-        border-l-3 relative
-        ${isConflict 
-          ? 'bg-red-100 text-red-800 border-l-red-500 hover:bg-red-200' 
-          : getPriorityClass(event.priority)
-        }
+        p-2 rounded-lg border-l-4 cursor-pointer transition-all duration-200 
+        hover:shadow-md hover:scale-105 active:scale-95
+        ${compact ? 'text-xs' : 'text-sm'}
+        ${colorClass}
+        ${isConflict ? 'ring-2 ring-red-300' : ''}
       `}
     >
       {/* Time */}
-      <div className="font-semibold text-xs mb-1">
-        {formatTimeShort(event.time)}
+      <div className={`font-medium text-gray-700 ${compact ? 'text-xs' : 'text-sm'}`}>
+        {formatTimeShort(event.time || event.startTime)}
       </div>
       
       {/* Title */}
-      <div className="font-medium truncate mb-1" title={event.title}>
+      <div className={`font-semibold truncate ${compact ? 'text-xs' : 'text-sm'}`}>
         {event.title}
       </div>
       
       {/* Duration and Location */}
-      <div className="text-xs opacity-75 truncate">
-        {event.duration}min
+      <div className={`text-gray-600 truncate ${compact ? 'text-xs' : 'text-xs'}`}>
+        {event.duration && event.duration !== 'All day' && (
+          <span>{event.duration}min</span>
+        )}
         {event.location && (
-          <span className="ml-1" title={event.location}>
-            • {event.location.length > 10 ? event.location.substring(0, 10) + '...' : event.location}
-          </span>
+          <>
+            {event.duration && event.duration !== 'All day' && <span> • </span>}
+            <span>
+              {event.location.length > 10 
+                ? event.location.substring(0, 10) + '...' 
+                : event.location
+              }
+            </span>
+          </>
         )}
       </div>
       
       {/* Conflict indicator */}
       {isConflict && (
-        <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full animate-pulse" 
-             title="Time conflict detected" />
+        <div className="mt-1">
+          <span className="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+          <span className="ml-1 text-xs text-red-600">Conflict</span>
+        </div>
       )}
       
       {/* Priority indicator */}
       {event.priority === 'high' && !isConflict && (
-        <div className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full" 
-             title="High priority" />
+        <div className="mt-1">
+          <span className="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
+          <span className="ml-1 text-xs text-red-600">High Priority</span>
+        </div>
       )}
     </div>
   );
