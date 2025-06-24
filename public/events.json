@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "title": "Team Meeting",
+    "date": "2025-06-25",
+    "time": "10:00",
+    "duration": 60,
+    "description": "Weekly team sync to discuss project progress and upcoming tasks",
+    "location": "Conference Room A",
+    "attendees": ["John Doe", "Jane Smith", "Mike Johnson"],
+    "priority": "high",
+    "category": "meeting"
+  },
+  {
+    "id": 2,
+    "title": "Project Review",
+    "date": "2025-06-25",
+    "time": "14:00",
+    "duration": 90,
+    "description": "Q2 project review meeting with stakeholders",
+    "location": "Main Hall",
+    "attendees": ["Sarah Wilson", "Tom Brown", "Lisa Garcia"],
+    "priority": "high",
+    "category": "review"
+  },
+  {
+    "id": 3,
+    "title": "Client Call",
+    "date": "2025-06-26",
+    "time": "11:00",
+    "duration": 30,
+    "description": "Discussion with ABC Corp about new requirements",
+    "location": "Virtual - Zoom",
+    "attendees": ["Alex Rodriguez", "Maria Gonzalez"],
+    "priority": "medium",
+    "category": "client"
+  },
+  {
+    "id": 4,
+    "title": "React Workshop",
+    "date": "2025-06-27",
+    "time": "09:00",
+    "duration": 180,
+    "description": "Advanced React patterns and best practices workshop",
+    "location": "Training Room B",
+    "attendees": ["Development Team"],
+    "priority": "medium",
+    "category": "training"
+  },
+  {
+    "id": 5,
+    "title": "Lunch Meeting",
+    "date": "2025-06-28",
+    "time": "12:30",
+    "duration": 60,
+    "description": "Business discussion over lunch with potential partners",
+    "location": "Downtown Restaurant",
+    "attendees": ["Business Partner"],
+    "priority": "low",
+    "category": "business"
+  },
+  {
+    "id": 6,
+    "title": "Code Review",
+    "date": "2025-06-30",
+    "time": "15:00",
+    "duration": 45,
+    "description": "Review pull requests and discuss code quality improvements",
+    "location": "Development Office",
+    "attendees": ["Senior Developers"],
+    "priority": "medium",
+    "category": "development"
+  },
+  {
+    "id": 7,
+    "title": "Sprint Planning",
+    "date": "2025-07-01",
+    "time": "10:00",
+    "duration": 120,
+    "description": "Plan tasks and user stories for the upcoming sprint",
+    "location": "Agile Room",
+    "attendees": ["Scrum Team"],
+    "priority": "high",
+    "category": "planning"
+  },
+  {
+    "id": 8,
+    "title": "Design Review",
+    "date": "2025-07-02",
+    "time": "14:30",
+    "duration": 60,
+    "description": "Review UI/UX designs for the new feature set",
+    "location": "Design Studio",
+    "attendees": ["Design Team", "Product Manager"],
+    "priority": "medium",
+    "category": "design"
+  }
+]

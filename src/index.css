@@ -1,0 +1,19 @@
+@import "tailwindcss";
+.App {
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+/* Additional custom styles can be added here */
+.calendar-grid {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.event-item {
+  transition: all 0.2s ease-in-out;
+}
+
+.event-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
