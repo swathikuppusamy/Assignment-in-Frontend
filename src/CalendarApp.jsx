@@ -10,9 +10,24 @@ const CalendarApp = () => {
   const [view, setView] = useState('month');
   const [events, setEvents] = useState(sampleEvents);
 
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleEventCreate = (eventData) => {
-    console.log('New event created:', eventData);
-    setEvents(prev => [...prev, eventData]);
+    const newEvent = {
+      ...eventData,
+      id: `event-${Date.now()}`,
+      date: eventData.date || formatDate(currentDate),
+      color: eventData.color || 'blue',
+      category: eventData.category || 'personal'
+    };
+    
+    console.log('Adding new event:', newEvent);
+    setEvents(prev => [...prev, newEvent]);
   };
 
   const handlePrevPeriod = () => {
@@ -33,13 +48,12 @@ const CalendarApp = () => {
 
   const handleDateSelect = (date) => setCurrentDate(date);
 
-
   const handleToday = () => {
     setCurrentDate(new Date()); 
   };
 
   const handleEventClick = (event) => {
-    alert(`Event: ${event.title}\nTime: ${event.time}\nLocation: ${event.location || 'N/A'}`);
+    alert(`Event: ${event.title}\nDate: ${event.date}\nTime: ${event.time || 'All day'}\nLocation: ${event.location || 'N/A'}`);
   };
   
   const handleToggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
@@ -53,6 +67,7 @@ const CalendarApp = () => {
         onDateSelect={handleDateSelect} 
         calendars={[]} 
         onCalendarToggle={() => {}} 
+        onEventCreate={handleEventCreate}
       />
 
       <div className="flex-1 flex flex-col">

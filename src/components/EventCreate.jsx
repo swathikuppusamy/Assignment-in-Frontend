@@ -4,7 +4,8 @@ import {
   Calendar, 
   Clock, 
   MapPin, 
-  Type
+  Type,
+  Palette
 } from 'lucide-react';
 
 const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
@@ -42,47 +43,24 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
   }, [selectedDate]);
 
   const calendarOptions = [
-    { id: 'personal', name: 'Personal', color: 'bg-blue-500' },
-    { id: 'work', name: 'Work', color: 'bg-red-500' },
-    { id: 'family', name: 'Family', color: 'bg-green-500' },
-    { id: 'birthdays', name: 'Birthdays', color: 'bg-purple-500' },
-    { id: 'holidays', name: 'Holidays', color: 'bg-orange-500' }
+    
+    { id: 'personal', name: 'Personal', color: 'bg-blue-500', category: 'Personal' },
+    { id: 'family', name: 'Family', color: 'bg-green-500', category: 'Personal' },
+    { id: 'birthdays', name: 'Birthdays', color: 'bg-purple-500', category: 'Personal' },
+    { id: 'health', name: 'Health & Fitness', color: 'bg-emerald-500', category: 'Personal' },
+   
+    { id: 'work', name: 'Work', color: 'bg-red-500', category: 'Work' },
+    { id: 'meetings', name: 'Meetings', color: 'bg-orange-500', category: 'Work' },
+    { id: 'projects', name: 'Projects', color: 'bg-indigo-500', category: 'Work' },
+    { id: 'travel', name: 'Business Travel', color: 'bg-cyan-500', category: 'Work' },
+    
+    { id: 'holidays', name: 'Holidays', color: 'bg-orange-400', category: 'Other' },
+    { id: 'appointments', name: 'Appointments', color: 'bg-sky-500', category: 'Other' }
   ];
 
   const colorOptions = [
     'bg-blue-500', 'bg-red-500', 'bg-green-500', 'bg-purple-500', 
     'bg-orange-500', 'bg-yellow-500', 'bg-pink-500', 'bg-indigo-500'
-  ];
-
-  const reminderOptions = [
-    { value: 'none', label: 'No reminder' },
-    { value: '0', label: 'At time of event' },
-    { value: '10', label: '10 minutes before' },
-    { value: '30', label: '30 minutes before' },
-    { value: '60', label: '1 hour before' },
-    { value: '1440', label: '1 day before' }
-  ];
-
-  const repeatOptions = [
-    { value: 'none', label: 'Does not repeat' },
-    { value: 'daily', label: 'Daily' },
-    { value: 'weekly', label: 'Weekly' },
-    { value: 'monthly', label: 'Monthly' },
-    { value: 'yearly', label: 'Yearly' }
-  ];
-
-  const priorityOptions = [
-    { value: 'low', label: 'Low Priority' },
-    { value: 'medium', label: 'Medium Priority' },
-    { value: 'high', label: 'High Priority' }
-  ];
-
-  const categoryOptions = [
-    { value: 'meeting', label: 'Meeting' },
-    { value: 'client', label: 'Client' },
-    { value: 'training', label: 'Training' },
-    { value: 'review', label: 'Review' },
-    { value: 'personal', label: 'Personal' }
   ];
 
   const handleInputChange = (field, value) => {
@@ -170,6 +148,14 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
     resetForm();
     onClose();
   };
+  const groupedCalendars = calendarOptions.reduce((groups, calendar) => {
+    const category = calendar.category;
+    if (!groups[category]) {
+      groups[category] = [];
+    }
+    groups[category].push(calendar);
+    return groups;
+  }, {});
 
   if (!isOpen) return null;
 
@@ -212,6 +198,7 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   autoFocus
                 />
               </div>
+
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <Calendar className="w-4 h-4 text-gray-500" />
@@ -224,6 +211,7 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
+
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <Clock className="w-4 h-4 text-gray-500" />
@@ -260,6 +248,7 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   </div>
                 )}
               </div>
+
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <MapPin className="w-4 h-4 text-gray-500" />
@@ -273,6 +262,34 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
+
+              {/* Extended Calendar Selection */}
+              <div>
+                <div className="flex items-center space-x-2 mb-2">
+                  <Palette className="w-4 h-4 text-gray-500" />
+                  <label className="text-sm font-medium text-gray-700">Calendar</label>
+                </div>
+                <select
+                  value={eventData.calendar}
+                  onChange={(e) => {
+                    const selectedCalendar = calendarOptions.find(cal => cal.id === e.target.value);
+                    handleInputChange('calendar', e.target.value);
+                    handleInputChange('color', selectedCalendar?.color || 'bg-blue-500');
+                  }}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  {Object.entries(groupedCalendars).map(([category, calendars]) => (
+                    <optgroup key={category} label={category}>
+                      {calendars.map((calendar) => (
+                        <option key={calendar.id} value={calendar.id}>
+                          {calendar.name}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))}
+                </select>
+              </div>
+
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">Event Color</label>
                 <div className="flex space-x-2">
@@ -288,6 +305,7 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   ))}
                 </div>
               </div>
+
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
                   Description
@@ -300,6 +318,7 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 />
               </div>
+
               <div className="flex space-x-3 pt-4">
                 <button
                   type="button"
