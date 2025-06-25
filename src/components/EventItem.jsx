@@ -15,7 +15,6 @@ const EventItem = ({ event, onClick, isConflict, compact = false }) => {
   };
 
   const getColorClass = (color) => {
-    // Handle both bg-color-500 format and just color format
     if (color && color.startsWith('bg-')) {
       return color.replace('bg-', 'border-').replace('-500', '-400') + ' ' + color.replace('-500', '-50');
     }
@@ -45,8 +44,6 @@ const EventItem = ({ event, onClick, isConflict, compact = false }) => {
       onClick && onClick(event);
     }
   };
-
-  // Use the color from event or priority-based color
   const colorClass = event.color ? getColorClass(event.color) : getPriorityClass(event.priority);
 
   return (
@@ -64,17 +61,12 @@ const EventItem = ({ event, onClick, isConflict, compact = false }) => {
         ${isConflict ? 'ring-2 ring-red-300' : ''}
       `}
     >
-      {/* Time */}
       <div className={`font-medium text-gray-700 ${compact ? 'text-xs' : 'text-sm'}`}>
         {formatTimeShort(event.time || event.startTime)}
       </div>
-      
-      {/* Title */}
       <div className={`font-semibold truncate ${compact ? 'text-xs' : 'text-sm'}`}>
         {event.title}
       </div>
-      
-      {/* Duration and Location */}
       <div className={`text-gray-600 truncate ${compact ? 'text-xs' : 'text-xs'}`}>
         {event.duration && event.duration !== 'All day' && (
           <span>{event.duration}min</span>
@@ -91,16 +83,12 @@ const EventItem = ({ event, onClick, isConflict, compact = false }) => {
           </>
         )}
       </div>
-      
-      {/* Conflict indicator */}
       {isConflict && (
         <div className="mt-1">
           <span className="inline-block w-2 h-2 bg-red-500 rounded-full"></span>
           <span className="ml-1 text-xs text-red-600">Conflict</span>
         </div>
       )}
-      
-      {/* Priority indicator */}
       {event.priority === 'high' && !isConflict && (
         <div className="mt-1">
           <span className="inline-block w-2 h-2 bg-red-500 rounded-full"></span>

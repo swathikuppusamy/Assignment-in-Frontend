@@ -175,17 +175,16 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
 
   return (
     <>
-      {/* Overlay */}
+      
       <div 
         className="fixed inset-0 bg-black/50 z-50"
         onClick={handleClose}
       />
       
-      {/* Modal */}
       <div className="fixed inset-0 z-50 overflow-y-auto">
         <div className="flex items-center justify-center min-h-full p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto transform transition-all">
-            {/* Header */}
+            
             <div className="flex items-center justify-between p-6 border-b border-gray-200 sticky top-0 bg-white">
               <h2 className="text-lg font-semibold text-gray-900">Create Event</h2>
               <button
@@ -196,9 +195,7 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
               </button>
             </div>
             
-            {/* Form */}
             <div className="p-6 space-y-4">
-              {/* Title */}
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <Type className="w-4 h-4 text-gray-500" />
@@ -215,8 +212,6 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   autoFocus
                 />
               </div>
-
-              {/* Date */}
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <Calendar className="w-4 h-4 text-gray-500" />
@@ -229,8 +224,6 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-
-              {/* Time */}
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <Clock className="w-4 h-4 text-gray-500" />
@@ -267,8 +260,6 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   </div>
                 )}
               </div>
-
-              {/* Location */}
               <div>
                 <div className="flex items-center space-x-2 mb-2">
                   <MapPin className="w-4 h-4 text-gray-500" />
@@ -282,8 +273,6 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
-
-              {/* Color Selection */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">Event Color</label>
                 <div className="flex space-x-2">
@@ -299,8 +288,6 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   ))}
                 </div>
               </div>
-
-              {/* Description */}
               <div>
                 <label className="text-sm font-medium text-gray-700 mb-2 block">
                   Description
@@ -313,8 +300,6 @@ const EventCreate = ({ isOpen, onClose, onSave, selectedDate }) => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
                 />
               </div>
-
-              {/* Action Buttons */}
               <div className="flex space-x-3 pt-4">
                 <button
                   type="button"

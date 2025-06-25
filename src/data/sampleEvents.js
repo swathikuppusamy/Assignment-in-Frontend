@@ -1,4 +1,3 @@
-// Sample events data
 export const sampleEvents = [
   {
     id: 1,
@@ -7,8 +6,8 @@ export const sampleEvents = [
     time: "10:00",
     duration: 60,
     description: "Weekly team sync to discuss project progress",
-    location: "Conference Room A",
-    attendees: ["John Doe", "Jane Smith", "Mike Johnson"],
+    location: "CC 8",
+    attendees: ["Swathi", "Swetha", "Tharani"],
     priority: "high",
     category: "meeting",
     color: "blue",
@@ -22,7 +21,7 @@ export const sampleEvents = [
     duration: 90,
     description: "Q2 project review meeting with stakeholders",
     location: "Main Hall",
-    attendees: ["Sarah Wilson", "Tom Brown"],
+    attendees: ["Tamil", "Vishnu"],
     priority: "high",
     category: "review",
     color: "red",
@@ -30,7 +29,7 @@ export const sampleEvents = [
   },
   {
     id: 3,
-    title: "Lunch with Sarah",
+    title: "Lunch with Boyfriend",
     date: "2025-06-25",
     time: "12:30",
     duration: 60,
@@ -43,7 +42,7 @@ export const sampleEvents = [
   },
   {
     id: 4,
-    title: "Mom's Birthday",
+    title: "Sister's Birthday",
     date: "2025-06-26",
     time: "00:00",
     duration: 1440,

@@ -55,7 +55,7 @@ const EventModal = ({ event, onClose }) => {
       onClick={handleBackdropClick}
     >
       <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-96 overflow-y-auto">
-        {/* Header */}
+     
         <div className="sticky top-0 bg-white border-b border-gray-200 p-6 pb-4">
           <div className="flex justify-between items-start">
             <div className="flex-1">
@@ -83,9 +83,8 @@ const EventModal = ({ event, onClose }) => {
           </div>
         </div>
         
-        {/* Content */}
+     
         <div className="p-6 pt-4 space-y-4">
-          {/* Date and Time */}
           <div className="flex items-center text-gray-700">
             <Calendar className="w-5 h-5 mr-3 text-blue-600" />
             <div>
@@ -95,8 +94,7 @@ const EventModal = ({ event, onClose }) => {
               </div>
             </div>
           </div>
-          
-          {/* Location */}
+         
           {event.location && (
             <div className="flex items-center text-gray-700">
               <MapPin className="w-5 h-5 mr-3 text-green-600" />
@@ -104,7 +102,6 @@ const EventModal = ({ event, onClose }) => {
             </div>
           )}
           
-          {/* Attendees */}
           {event.attendees && event.attendees.length > 0 && (
             <div className="flex items-start text-gray-700">
               <Users className="w-5 h-5 mr-3 mt-0.5 text-purple-600" />
@@ -120,7 +117,6 @@ const EventModal = ({ event, onClose }) => {
             </div>
           )}
           
-          {/* Description */}
           {event.description && (
             <div className="border-t border-gray-200 pt-4">
               <div className="flex items-start text-gray-700">
@@ -134,7 +130,6 @@ const EventModal = ({ event, onClose }) => {
           )}
         </div>
         
-        {/* Footer */}
         <div className="border-t border-gray-200 p-4 bg-gray-50">
           <button
             onClick={onClose}

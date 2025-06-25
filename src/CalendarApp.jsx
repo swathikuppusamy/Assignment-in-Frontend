@@ -14,10 +14,29 @@ const CalendarApp = () => {
     console.log('New event created:', eventData);
     setEvents(prev => [...prev, eventData]);
   };
-  
-  const handlePrevMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
-  const handleNextMonth = () => setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+
+  const handlePrevPeriod = () => {
+    if (view === 'month') {
+      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+    } else {
+      setCurrentDate(new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), 1));
+    }
+  };
+
+  const handleNextPeriod = () => {
+    if (view === 'month') {
+      setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+    } else {
+      setCurrentDate(new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1));
+    }
+  };
+
   const handleDateSelect = (date) => setCurrentDate(date);
+
+
+  const handleToday = () => {
+    setCurrentDate(new Date()); 
+  };
 
   const handleEventClick = (event) => {
     alert(`Event: ${event.title}\nTime: ${event.time}\nLocation: ${event.location || 'N/A'}`);
@@ -39,11 +58,12 @@ const CalendarApp = () => {
       <div className="flex-1 flex flex-col">
         <CalendarHeader
           currentDate={currentDate}
-          onPrevMonth={handlePrevMonth}
-          onNextMonth={handleNextMonth}
-          onToggleSidebar={handleToggleSidebar}
-          view={view}
-          setView={setView}
+          onPrevMonth={handlePrevPeriod}
+          onNextMonth={handleNextPeriod}
+          onToday={handleToday}
+          onSidebarToggle={handleToggleSidebar}
+          viewMode={view}
+          onViewChange={setView}
         />
 
         <main className="flex-1 p-4 overflow-auto">
@@ -52,6 +72,7 @@ const CalendarApp = () => {
             events={events}
             onEventClick={handleEventClick}
             onEventCreate={handleEventCreate}
+            viewMode={view}
           />        
         </main>
       </div>
